@@ -13,6 +13,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List _tasks = [];
+  Map<String, dynamic> _lastTaskRemoved = Map();
 
   TextEditingController controller = TextEditingController();
 
@@ -56,17 +57,31 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget creatItemList(context, index) {
-    final item = _tasks[index]["title"];
-
     return Dismissible(
-        key: Key(item),
+        key: Key(DateTime.now().microsecondsSinceEpoch.toString()),
         direction: DismissDirection.endToStart,
         onDismissed: (direction) {
+          // Get last task removed
+          _lastTaskRemoved = _tasks[index];
+
           // remove item from list.
           _tasks.removeAt(index);
 
           // save file
-          _saveFile();
+          // _saveFile();
+
+          // Add SnackBar.
+          final snackbar = SnackBar(
+            content: Text("Tarefa removida!"),
+            action: SnackBarAction(
+                label: "Desfazer",
+                onPressed: () {
+                  setState(() {
+                    _tasks.insert(index, _lastTaskRemoved);
+                  });
+                }),
+          );
+          Scaffold.of(context).showSnackBar(snackbar);
         },
         background: Container(
           padding: EdgeInsets.all(16),
