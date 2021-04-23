@@ -143,11 +143,21 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.purple,
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
-            child: ListView.builder(
-                itemCount: _tasks.length, itemBuilder: creatItemList),
-          )
+          _tasks.length == 0
+              ? Center(
+                  child: Text(
+                  "Você ainda não tem nenhuma tarefa :(",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Colors.grey),
+                ))
+              : Expanded(
+                  child: ListView.builder(
+                      itemCount: _tasks.length, itemBuilder: creatItemList),
+                )
         ],
       ),
     );
