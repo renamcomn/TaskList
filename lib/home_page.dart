@@ -55,6 +55,44 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  Widget creatItemList(context, index) {
+    final item = _tasks[index]["title"];
+
+    return Dismissible(
+        key: Key(item),
+        direction: DismissDirection.endToStart,
+        onDismissed: (direction) {
+          // remove item from list.
+          _tasks.removeAt(index);
+
+          // save file
+          _saveFile();
+        },
+        background: Container(
+          padding: EdgeInsets.all(16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Icon(
+                Icons.delete,
+                color: Colors.white,
+              )
+            ],
+          ),
+          color: Colors.red,
+        ),
+        child: CheckboxListTile(
+          onChanged: (value) {
+            setState(() {
+              _tasks[index]['completed'] = value;
+            });
+            _saveFile();
+          },
+          value: _tasks[index]['completed'],
+          title: Text(_tasks[index]['title']),
+        ));
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -108,19 +146,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           Expanded(
             child: ListView.builder(
-                itemCount: _tasks.length,
-                itemBuilder: (context, index) {
-                  return CheckboxListTile(
-                    onChanged: (value) {
-                      setState(() {
-                        _tasks[index]['completed'] = value;
-                      });
-                      _saveFile();
-                    },
-                    value: _tasks[index]['completed'],
-                    title: Text(_tasks[index]['title']),
-                  );
-                }),
+                itemCount: _tasks.length, itemBuilder: creatItemList),
           )
         ],
       ),
