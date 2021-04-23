@@ -1,6 +1,10 @@
 # tasklistapp
 
-A new Flutter project.
+## Todo App - Flutter
+
+## Libs: path_provider
+
+This app save the tasks using local json file.
 
 <img src="https://github.com/renamcomn/TaskList/blob/master/assets/prints/home.png" width="300"></img>
 <img src="https://github.com/renamcomn/TaskList/blob/master/assets/prints/add.png" width="300"></img>
